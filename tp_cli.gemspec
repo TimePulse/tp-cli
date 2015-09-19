@@ -6,7 +6,7 @@ require 'tp_cli/version'
 
 Gem::Specification.new do |spec|
   spec.name           = 'tp-cli'
-  spec.version        = tp_cli::VERSION
+  spec.version        = TpCommandLine::VERSION
   spec.date           = '2015-09-18'
   spec.summary        = 'Timepulse Command Line Interface'
   spec.description    = 'CLI tool for submitting activity information to Timepulse'
@@ -23,4 +23,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler',  '~> 1.10'
   spec.add_development_dependency 'rake',     '~> 10.0'
   spec.add_development_dependency 'rspec'
+
+  spec.add_dependency 'typhoeus'
 end
