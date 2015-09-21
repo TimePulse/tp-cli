@@ -15,6 +15,7 @@ Gem::Specification.new do |spec|
   spec.homepage       = 'https://github.com/TimePulse/tp-cli'
   spec.license        = 'MIT'
 
+#spec.files and spec.executables should be explicit lists, according to JL
   spec.files          = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.executables    = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files     = spec.files.grep(%r{^(test|spec|features)/})
