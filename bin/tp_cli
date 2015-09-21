@@ -1,4 +1,5 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env bundle exec ruby
+#TODO take out bundle exec, only using temporarily for testing convenience
 require 'tp_cli'
 
 track = TpCommandLine::ActivityTrack.new

@@ -1,7 +1,7 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'tp-cli/version'
+require 'tp_cli/version'
 
 
 Gem::Specification.new do |spec|
@@ -15,9 +15,8 @@ Gem::Specification.new do |spec|
   spec.homepage       = 'https://github.com/TimePulse/tp-cli'
   spec.license        = 'MIT'
 
-#spec.files and spec.executables should be explicit lists, according to JL
-  spec.files          = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  spec.executables    = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.files          = [".envrc.example", ".gitignore", "Gemfile", "Gemfile.lock", "LICENSE.txt", "README.md", "Rakefile", "bin/tp_cli", "lib/tp_cli/version.rb", "lib/tp_cli.rb", "spec/spec_helper.rb", "spec/tp_cli_spec.rb", "tp_cli.gemspec]"]
+  spec.executables    = ["tp_cli"]
   spec.test_files     = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths  = ["lib"]
 
