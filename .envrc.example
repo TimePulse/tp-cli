@@ -1,1 +1,1 @@
-ruby typhscript.rb
+ruby ./lib/tp_cli.rb

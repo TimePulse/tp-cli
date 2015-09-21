@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
-require 'tp-cli/lib/tp_cli'
+require 'tp_cli'
 
 track = TpCommandLine::ActivityTrack.new
 
-track.post_to_tp(description)
+track.post_to_TP(description)
