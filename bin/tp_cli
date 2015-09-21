@@ -2,5 +2,4 @@
 require 'tp_cli'
 
 track = TpCommandLine::ActivityTrack.new
-
-track.post_to_TP(ARGV[1])
+track.det_activity

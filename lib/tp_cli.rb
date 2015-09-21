@@ -4,7 +4,7 @@ require "tp-cli/version"
 module TpCommandLine
   class ActivityTrack
 
-    def initialize
+    def det_activity
       if ARGV.empty?
         puts "\n Please specificy action: ./tp_cli.rb [note] or ./tp_cli.rb [cwd]"
 
