@@ -3,15 +3,21 @@ require "tp_cli/version"
 
 module TpCommandLine
   class ActivityTrack
+
+    def initialize(args)
+      @args = args
+    end
+
     #determine user activity and user feedback or what to POST
     def det_activity
-      if ARGV.empty?
-        puts "\n Please specificy action: bin/tp_cli [note] or bin/tp_cli [cwd]"
+      if @args.empty?
+        raise ArgumentError, '/specify action/'
+        #puts "\n Please specify action: bin/tp_cli [note] or bin/tp_cli [cwd]"
 
-      elsif ARGV[0] == "note" && ARGV[1].is_a?(String)
-        post_to_TP(ARGV[1])
+      elsif @args[0] == "note" && @args[1].is_a?(String)
+        post_to_TP(@args[1])
 
-      else ARGV[0] == "cwd"
+      else @args[0] == "cwd"
         post_to_TP("Changed working directory")
       end
     end

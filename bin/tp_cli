@@ -1,6 +1,8 @@
-#!/usr/bin/env bundle exec ruby
-#TODO take out bundle exec, only using temporarily for testing convenience
+#!/usr/bin/env ruby
 require 'tp_cli'
 
 track = TpCommandLine::ActivityTrack.new
 track.det_activity
+
+#From JL: Either catch the error in the bin/tp_cli, or just let it bubble
+#up to the top. Catching it and printing its message is probably nicest
