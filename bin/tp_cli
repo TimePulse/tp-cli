@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
 require 'tp_cli'
 
-track = TpCommandLine::ActivityTrack.new
-track.det_activity
+track = TpCommandLine::ActivityTrack.new(ARGV)
 
-#From JL: Either catch the error in the bin/tp_cli, or just let it bubble
-#up to the top. Catching it and printing its message is probably nicest
+begin
+  track.determine_activity
+rescue ArgumentError => err
+  puts "\n Please specify action: bin/tp_cli [note] or bin/tp_cli [cwd]"
+end

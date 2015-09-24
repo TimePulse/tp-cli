@@ -1,5 +1,6 @@
 require 'typhoeus'
 require "tp_cli/version"
+require 'yaml'
 
 module TpCommandLine
   class ActivityTrack
@@ -9,30 +10,36 @@ module TpCommandLine
     end
 
     #determine user activity and user feedback or what to POST
-    def det_activity
+    def determine_activity
       if @args.empty?
         raise ArgumentError, '/specify action/'
-        #puts "\n Please specify action: bin/tp_cli [note] or bin/tp_cli [cwd]"
 
       elsif @args[0] == "note" && @args[1].is_a?(String)
-        post_to_TP(@args[1])
+        record_activity_in_TP(@args[1])
 
       else @args[0] == "cwd"
-        post_to_TP("Changed working directory")
+        record_activity_in_TP("Changed working directory")
       end
     end
     #POST to create method in TP Activities controller; create an Activity in db
-    def post_to_TP(description)
+    def record_activity_in_TP(description)
+
+      config = YAML.load_file('config/.timepulse.yml')
+      url = config['timepulse_url']
+      project_id = config['project_id']
+      login = config['login']
+      authorization = config['authorization']
+
       request = Typhoeus::Request.new(
-        "http://localhost:3000/activities",
+        url,
         method: :post,
         params: { activity: {
           description: description,
-          project_id: 1,
+          project_id: project_id,
           source: "API"
           }
         },
-        headers: { login: "admin", Authorization: "ZE06nDe8PJ4-2s8TFBYB" }
+        headers: { login: login, Authorization: authorization }
       )
       request.run
     end
