@@ -48,3 +48,4 @@ errors.err
 apache-passenger.conf
 .idea/
 *.orig
+config/.timepulse.yml
