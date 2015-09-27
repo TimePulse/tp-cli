@@ -38,46 +38,47 @@ module TpCommandLine
       if File.exists?(home_config) && File.exists?('config/.timepulse.yml')
         config_hash = hash1.merge(hash2)
 
-    #is there a way to do p1, p2, p3, p4 and insert into config_hash[#{p1}]?
+    # #is there a way to do p1, p2, p3, p4 and insert into config_hash[#{p1}]?
+    #     necessary_params = ["timepulse_url", "project_id", "login", "authorization"]
+
+
+    #     # necessary_params.each do |p1, p2, p3, p4|
+    #     if config_hash.include? 'timepulse_url'
+    #       url = config_hash['timepulse_url']
+    #     else
+    #       puts "Missing necessary parameter: timepulse url"
+    #     end
+    #     if config_hash.include? 'project_id'
+    #       project_id = config_hash['project_id']
+    #     else
+    #       puts "Missing necessary parameter: project id"
+    #     end
+    #     if config_hash.include? 'login'
+    #       login = config_hash['login']
+    #     else
+    #       puts "Missing necessary parameter: login"
+    #     end
+    #     if config_hash.include? 'authorization'
+    #       authorization = config_hash['authorization']
+    #     else
+    #       puts "Missing necessary parameter: authorization"
+    #     end
+
+
+
+        # end
         necessary_params = ["timepulse_url", "project_id", "login", "authorization"]
 
-
-        # necessary_params.each do |p1, p2, p3, p4|
-        if config_hash.include? 'timepulse_url'
-          url = config_hash['timepulse_url']
-        else
-          puts "Missing necessary parameter: timepulse url"
+        for k, v in config_hash
+          if config_hash.include? necessary_params
+            url = config_hash['timepulse_url']
+            project_id = config_hash['project_id']
+            login = config_hash['login']
+            authorization = config_hash['authorization']
+          else
+            puts "Missing necessary parameter: #{necessary_params}"
+          end
         end
-        if config_hash.include? 'project_id'
-          project_id = config_hash['project_id']
-        else
-          puts "Missing necessary parameter: project id"
-        end
-        if config_hash.include? 'login'
-          login = config_hash['login']
-        else
-          puts "Missing necessary parameter: login"
-        end
-        if config_hash.include? 'authorization'
-          authorization = config_hash['authorization']
-        else
-          puts "Missing necessary parameter: authorization"
-        end
-        # end
-
-        # necessary_params.each do |p|
-        #   if p
-        #     puts "#{p} is a missing and necessary parameter"
-        #   end
-        # end
-        # necessary_params.each do |p1, p2, p3, p4|
-        #   unless .present? == false
-        #     url = config_hash['timepulse_url']
-        #     project_id = config_hash['project_id']
-        #     login = config_hash['login']
-        #     authorization = config_hash['authorization']
-        #   end
-        # end
 
         # # end
 
