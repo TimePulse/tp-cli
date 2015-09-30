@@ -43,42 +43,42 @@ module TpCommandLine
 
 
     #     # necessary_params.each do |p1, p2, p3, p4|
-    #     if config_hash.include? 'timepulse_url'
-    #       url = config_hash['timepulse_url']
-    #     else
-    #       puts "Missing necessary parameter: timepulse url"
-    #     end
-    #     if config_hash.include? 'project_id'
-    #       project_id = config_hash['project_id']
-    #     else
-    #       puts "Missing necessary parameter: project id"
-    #     end
-    #     if config_hash.include? 'login'
-    #       login = config_hash['login']
-    #     else
-    #       puts "Missing necessary parameter: login"
-    #     end
-    #     if config_hash.include? 'authorization'
-    #       authorization = config_hash['authorization']
-    #     else
-    #       puts "Missing necessary parameter: authorization"
-    #     end
+      if config_hash.include? 'timepulse_url'
+        url = config_hash['timepulse_url']
+      else
+        puts "Missing necessary parameter: timepulse url"
+      end
+      if config_hash.include? 'project_id'
+        project_id = config_hash['project_id']
+      else
+        puts "Missing necessary parameter: project id"
+      end
+      if config_hash.include? 'login'
+        login = config_hash['login']
+      else
+        puts "Missing necessary parameter: login"
+      end
+      if config_hash.include? 'authorization'
+        authorization = config_hash['authorization']
+      else
+        puts "Missing necessary parameter: authorization"
+      end
 
 
 
         # end
-        necessary_params = ["timepulse_url", "project_id", "login", "authorization"]
+        # necessary_params = ["timepulse_url", "project_id", "login", "authorization"]
 
-        for k, v in config_hash
-          if config_hash.include? necessary_params
-            url = config_hash['timepulse_url']
-            project_id = config_hash['project_id']
-            login = config_hash['login']
-            authorization = config_hash['authorization']
-          else
-            puts "Missing necessary parameter: #{necessary_params}"
-          end
-        end
+        # for k, v in config_hash
+        #   if config_hash.include? necessary_params
+        #     url = config_hash['timepulse_url']
+        #     project_id = config_hash['project_id']
+        #     login = config_hash['login']
+        #     authorization = config_hash['authorization']
+        #   else
+        #     puts "Missing necessary parameter: #{necessary_params}"
+        #   end
+        # end
 
         # # end
 
