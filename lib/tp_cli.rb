@@ -38,64 +38,29 @@ module TpCommandLine
       if File.exists?(home_config) && File.exists?('config/.timepulse.yml')
         config_hash = hash1.merge(hash2)
 
-    # #is there a way to do p1, p2, p3, p4 and insert into config_hash[#{p1}]?
-    #     necessary_params = ["timepulse_url", "project_id", "login", "authorization"]
-
-
-    #     # necessary_params.each do |p1, p2, p3, p4|
-      if config_hash.include? 'timepulse_url'
+      missing_fields = ['timepulse_url', 'project_id', 'login', 'authorization'].find_all {|k| !config_hash.keys.include? k}
+      if missing_fields.empty?
         url = config_hash['timepulse_url']
-      else
-        puts "Missing necessary parameter: timepulse url"
-      end
-      if config_hash.include? 'project_id'
         project_id = config_hash['project_id']
-      else
-        puts "Missing necessary parameter: project id"
-      end
-      if config_hash.include? 'login'
         login = config_hash['login']
-      else
-        puts "Missing necessary parameter: login"
-      end
-      if config_hash.include? 'authorization'
         authorization = config_hash['authorization']
       else
-        puts "Missing necessary parameter: authorization"
+        puts "Missing necessary parameter/s: #{missing_fields.join(", ")}"
       end
 
+      request = Typhoeus::Request.new(
+        url,
+        method: :post,
+        params: { activity: {
+          description: description,
+          project_id: project_id,
+          source: "API"
+          }
+        },
+        headers: { login: login, Authorization: authorization }
+      )
 
-
-        # end
-        # necessary_params = ["timepulse_url", "project_id", "login", "authorization"]
-
-        # for k, v in config_hash
-        #   if config_hash.include? necessary_params
-        #     url = config_hash['timepulse_url']
-        #     project_id = config_hash['project_id']
-        #     login = config_hash['login']
-        #     authorization = config_hash['authorization']
-        #   else
-        #     puts "Missing necessary parameter: #{necessary_params}"
-        #   end
-        # end
-
-        # # end
-
-
-        request = Typhoeus::Request.new(
-          url,
-          method: :post,
-          params: { activity: {
-            description: description,
-            project_id: project_id,
-            source: "API"
-            }
-          },
-          headers: { login: login, Authorization: authorization }
-        )
-
-        request.run
+      request.run
       end
     end
   end
