@@ -1,0 +1,5 @@
+#Q- do I need to git add this file explicitly?
+timepulse_url: http://localhost:3000/activities
+login: admin
+authorization: [insert your API key here]
+project_id: 6
