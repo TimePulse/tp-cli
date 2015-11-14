@@ -1,4 +1,8 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-# Specify your gem's dependencies in tp_cli.gemspec
-gemspec
+gem 'corundum'
+gem 'bundler',  '~> 1.10'
+gem 'rake',     '~> 10.0'
+gem 'rspec'
+
+gemspec :name => "tp-cli" #points to default 'tp-cli.gemspec'
