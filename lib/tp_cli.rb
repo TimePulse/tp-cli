@@ -1,8 +1,5 @@
 require 'typhoeus'
-require "tp_cli/version"
-require 'yaml'
 require 'config'
-require 'pp'
 
 module TpCommandLine
   class ActivityTrack

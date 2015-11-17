@@ -1,21 +1,22 @@
-require "tp_cli/version"
+require 'valise'
 require 'yaml'
 
 module TpCommandLine
   class Config
-    def load_file(file)
-      if File.exists?(file)
-        return YAML.load(File.read(file))
-      else
-        file = {}
+    def file_set
+      Valise::Set.define do
+        ro "config/"
+        ro "~/.timepulse"
+        ro "/usr/share/timepulse"
+        ro "/etc/timepulse"
+
+        handle "*.yml", :yaml, :hash_merge
+        handle "*.yaml", :yaml, :hash_merge
       end
     end
 
     def load_config
-      hash1 = load_file(File.join(Dir.home, ".timepulse.yml"))
-      hash2 = load_file('config/.timepulse.yml')
-
-      @config_hash = hash1.merge(hash2)
+      @config_hash = file_set.contents("timepulse.yml")
 
       missing_fields = ['timepulse_url', 'project_id', 'login',
                         'authorization'].find_all {|k| !@config_hash.keys.include? k}

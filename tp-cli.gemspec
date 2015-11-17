@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
 
   #spec.add_dependency("", "> 0")
   spec.add_dependency 'typhoeus'
+  spec.add_dependency 'valise'
 
   #spec.post_install_message = "Thanks for installing my gem!"
 end
