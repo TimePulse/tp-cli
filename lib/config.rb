@@ -22,7 +22,8 @@ module TpCommandLine
       missing_fields = ['timepulse_url', 'project_id', 'login',
                         'authorization'].find_all {|k| !@config_hash.keys.include? k}
       unless missing_fields.empty?
-        exit "Missing necessary parameter/s: #{missing_fields.join(", ")}"
+        puts "Missing necessary parameter/s: #{missing_fields.join(", ")}"
+        exit
       end
 
       return @config_hash

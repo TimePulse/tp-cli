@@ -1,6 +1,6 @@
 require 'typhoeus'
 require 'config'
-require 'JSON'
+require 'json'
 
 module TpCommandLine
   class ActivityTrack
