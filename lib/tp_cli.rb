@@ -8,22 +8,22 @@ module TpCommandLine
     attr_reader :request
 
     def initialize(args)
+      @config_data = TpCommandLine::Config.new.load_config
       description = determine_description(args)
-      config_data = TpCommandLine::Config.new.load_config
-      @server_url = config_data["timepulse_url"]
+      @server_url = @config_data["timepulse_url"]
       @request_options = {
         method: :post,
         body: JSON.dump({
           activity: {
             description: description,
-            project_id: config_data['project_id'],
+            project_id: @config_data['project_id'],
             source: "API",
             time: Time.now.utc
           }
         }),
         headers: {
-          login: config_data['login'],
-          Authorization: config_data['authorization'],
+          login: @config_data['login'],
+          Authorization: @config_data['authorization'],
           'Accept-Encoding' => 'application/json',
           'Content-Type' => 'application/json'
            }
@@ -35,7 +35,8 @@ module TpCommandLine
       if args[0] == "note" && args[1].is_a?(String)
         args[1]
       elsif args[0] == "cwd"
-        "Changed working directory"
+        directory = @config_data["directory_name"] || Dir.getwd
+        "Changed working directory to #{directory}"
       else
         raise ArgumentError
       end
@@ -66,18 +67,13 @@ module TpCommandLine
           errors = JSON.parse(response.body)
           errors.each { |k, v| v.each { |vsub| puts "#{k} #{vsub}"}}
         end
-
+      when 500
+        puts "\nThere was an internal server error while handling your request. Tell your TimePulse administrator to check their logs."
       when 0
         puts "\nPlease check your internet connection and that the project site is not currently offline.\nCurl Error: #{response.return_code}"
       else
         puts "\nTimePulse returned an unexpected response: #{response.response_code}"
       end
-
-      # puts response.return_code
-      # puts response.response_code
-      # puts response.body
-      # puts response.headers
     end
-
   end
 end

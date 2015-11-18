@@ -1,0 +1,15 @@
+# Put a copy of this file (renamed "timepulse.yml") in the root or config
+# directory of a project that is billed to TimePulse. This may be included in
+# the git repository for your project.
+
+# The project_id should be the number used by TimePulse to identify the project
+# that will be billed for work on a particular project.
+
+project_id: 6
+
+# If you want to specify a more descriptive name for the directory being
+# tracked by "change working directory" annotations, you can uncomment this line
+# and specify a new name. Otherwise, the message will include the current
+# working directory
+
+# directory_name: Main Project Directory
