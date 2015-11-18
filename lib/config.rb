@@ -7,6 +7,7 @@ module TpCommandLine
       Valise::Set.define do
         ro "config/"
         ro "~/.timepulse"
+        ro "~/"
         ro "/usr/share/timepulse"
         ro "/etc/timepulse"
 

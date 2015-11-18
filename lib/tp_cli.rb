@@ -1,5 +1,6 @@
 require 'typhoeus'
 require 'config'
+require 'JSON'
 
 module TpCommandLine
   class ActivityTrack
@@ -12,13 +13,19 @@ module TpCommandLine
       @server_url = config_data["timepulse_url"]
       @request_options = {
         method: :post,
-        params: { activity: {
-          description: description,
-          project_id: config_data['project_id'],
-          source: "API"
-          } },
-        headers: { login: config_data['login'],
-          Authorization: config_data['authorization'] }
+        body: JSON.dump({
+          activity: {
+            description: description,
+            project_id: config_data['project_id'],
+            source: "API"
+          }
+        }),
+        headers: {
+          login: config_data['login'],
+          Authorization: config_data['authorization'],
+          'Accept-Encoding' => 'application/json',
+          'Content-Type' => 'application/json'
+           }
         }
     end
 
