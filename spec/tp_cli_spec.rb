@@ -79,7 +79,7 @@ describe TpCommandLine::ActivityTrack do
 
     context "with valid data" do
       let :response do
-        Typhoeus::Response.new(response_code: 200)
+        Typhoeus::Response.new(response_code: 201)
       end
 
       it "assigns the correct url to the request" do
@@ -91,65 +91,108 @@ describe TpCommandLine::ActivityTrack do
       it "assigns the correct options to the request" do
         activity_track.send_to_timepulse
         options = activity_track.request.original_options
-        activity_params = options[:params][:activity]
-        # activity_params = options[:body][:activity]
+        activity_params = JSON.parse(options[:body])
         headers = options[:headers]
 
         expect(options[:method]).to eq(:post)
-        expect(activity_params[:description]).to eq("Changed working directory")
-        expect(activity_params[:project_id]).to eq("2")
-        expect(activity_params[:source]).to eq("API")
+        expect(activity_params["activity"]["description"]).to eq("Changed working directory")
+        expect(activity_params["activity"]["project_id"]).to eq("2")
+        expect(activity_params["activity"]["source"]).to eq("API")
         expect(headers[:login]).to eq("Logan Loggins")
         expect(headers[:Authorization]).to eq("AuthorizationToTheDangerZone")
       end
 
-      it "receives a response" do
+      it "receives a successful response" do
         activity_track.send_to_timepulse
         expect(activity_track.request.response).not_to be_nil
+        expect(activity_track.request.response.response_code).to eq(201)
       end
 
-      it "prints a successful response" do
-        expect do
-          activity_track.send_to_timepulse
-        end.to output("\nThe activity was sent to TimePulse.\n").to_stdout
+      it "calls handle_response" do
+        expect(activity_track).to receive(:handle_response).and_call_original
+        activity_track.send_to_timepulse
       end
     end
 
-    context "with invalid authorization credentials" do
-      let :response do
-        Typhoeus::Response.new(response_code: 401)
+    describe "#handle_response" do
+      let :activity_track do
+        TpCommandLine::ActivityTrack.new(['cwd'])
       end
 
-      it "prints a notification of error" do
-        expect do
-          activity_track.send_to_timepulse
-        end.to output("\nThe TimePulse server was unable to authorize you. Check the API token in your timepulse.yml files.\n").to_stdout
-      end
-    end
+      context "with a 201 response code (success)" do
+        let :response do
+          dbl = double
+          allow(dbl).to receive(:response_code).and_return(201)
+          dbl
+        end
 
-    context "with invalid configuration data" do
-      let :response do
-        Typhoeus::Response.new(response_code: 422)
-      end
-
-      it "prints a notification of error" do
-        expect do
-          activity_track.send_to_timepulse
-        end.to output("\nThere was an error saving to TimePulse. Please check the information in your timepulse.yml files.\n").to_stdout
-      end
-    end
-
-    context "with server connectivity issues" do
-      let :response do
-        Typhoeus::Response.new(response_code: 0)
+        it "prints a successful response" do
+          expect do
+            activity_track.handle_response(response)
+          end.to output("\nThe activity was sent to TimePulse.\n").to_stdout
+        end
       end
 
-      it "prints a notification of error" do
-        expect do
-          activity_track.send_to_timepulse
-        end.to output("\nPlease check your internet connection and that the project site is not currently offline.\nCurl Error: #{response.return_code}\n").to_stdout
+      context "with a 401 response code (unauthorized)" do
+        let :response do
+          dbl = double
+          allow(dbl).to receive(:response_code).and_return(401)
+          dbl
+        end
+
+        it "prints a notification of error" do
+          expect do
+            activity_track.handle_response(response)
+          end.to output("\nThe TimePulse server was unable to authorize you. Check the API token in your timepulse.yml files.\n").to_stdout
+        end
       end
-      #need test for all other response codes, i.e. unexpected response
+
+      context "with a 422 response code (could not save)" do
+        let :response do
+          dbl = double
+          allow(dbl).to receive(:response_code).and_return(422)
+          allow(dbl).to receive(:body).and_return(body)
+          dbl
+        end
+
+        context "and no errors in body" do
+          let :body do
+            nil
+          end
+
+          it "prints a notification of error" do
+            expect do
+              activity_track.handle_response(response)
+            end.to output("\nThere was an error saving to TimePulse. Please check the information in your timepulse.yml files.\n").to_stdout
+          end
+        end
+
+        context "with errors in body" do
+          let :body do
+            '{"field": ["error message"]}'
+          end
+          it "prints a notification of error" do
+            expect do
+              activity_track.handle_response(response)
+            end.to output("\nThere was an error saving to TimePulse. Please check the information in your timepulse.yml files.\nRails Errors:\nfield error message\n").to_stdout
+          end
+        end
+      end
+
+      context "with a 0 response code (server connectivity issues)" do
+        let :response do
+          dbl = double
+          allow(dbl).to receive(:response_code).and_return(0)
+          allow(dbl).to receive(:return_code).and_return("foo")
+          dbl
+        end
+
+        it "prints a notification of error" do
+          expect do
+            activity_track.handle_response(response)
+          end.to output("\nPlease check your internet connection and that the project site is not currently offline.\nCurl Error: foo\n").to_stdout
+        end
+      end
     end
   end
 end
