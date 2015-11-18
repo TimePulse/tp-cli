@@ -75,6 +75,12 @@ describe TpCommandLine::ActivityTrack do
       allow(config_double).to receive(:load_config).and_return(config_data)
       allow(TpCommandLine::Config).to receive(:new).and_return(config_double)
       Typhoeus.stub(/timepulse.io/).and_return(response)
+      @original_stdout = $stdout
+      $stdout = File.open(File::NULL, "w")
+    end
+
+    after :each do
+      $stdout = @original_stdout
     end
 
     context "with valid data" do
