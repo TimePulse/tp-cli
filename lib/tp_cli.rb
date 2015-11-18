@@ -54,11 +54,26 @@ module TpCommandLine
     end
 
     def handle_response(response)
-      if response.success?
-        puts "The activity was sent to TimePulse."
+      case response.response_code
+      when 201
+        puts "\nThe activity was sent to TimePulse."
+      when 401
+        puts "\nThe TimePulse server was unable to authorize you. Check the API token in your timepulse.yml files."
+      when 422
+        puts "\nThere was an error saving to TimePulse. Please check the information in your timepulse.yml files.\nRails Errors:"
+        errors = JSON.parse(response.body)
+        errors.each { |k, v| v.each { |vsub| puts "#{k} #{vsub}"}}
+
+      when 0
+        puts "\nPlease check your internet connection and that the project site is not currently offline.\nCurl Error: #{response.return_code}"
       else
-        puts "There was an error sending to TimePulse."
+        puts "\nTimePulse returned an unexpected response: #{response.response_code}"
       end
+
+      # puts response.return_code
+      # puts response.response_code
+      # puts response.body
+      # puts response.headers
     end
 
   end

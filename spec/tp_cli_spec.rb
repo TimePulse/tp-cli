@@ -92,6 +92,7 @@ describe TpCommandLine::ActivityTrack do
         activity_track.send_to_timepulse
         options = activity_track.request.original_options
         activity_params = options[:params][:activity]
+        # activity_params = options[:body][:activity]
         headers = options[:headers]
 
         expect(options[:method]).to eq(:post)
@@ -110,11 +111,11 @@ describe TpCommandLine::ActivityTrack do
       it "prints a successful response" do
         expect do
           activity_track.send_to_timepulse
-        end.to output("The activity was sent to TimePulse.\n").to_stdout
+        end.to output("\nThe activity was sent to TimePulse.\n").to_stdout
       end
     end
 
-    context "with invalid data" do
+    context "with invalid authorization credentials" do
       let :response do
         Typhoeus::Response.new(response_code: 401)
       end
@@ -122,9 +123,33 @@ describe TpCommandLine::ActivityTrack do
       it "prints a notification of error" do
         expect do
           activity_track.send_to_timepulse
-        end.to output("There was an error sending to TimePulse.\n").to_stdout
+        end.to output("\nThe TimePulse server was unable to authorize you. Check the API token in your timepulse.yml files.\n").to_stdout
       end
     end
-  end
 
+    context "with invalid configuration data" do
+      let :response do
+        Typhoeus::Response.new(response_code: 422)
+      end
+
+      it "prints a notification of error" do
+        expect do
+          activity_track.send_to_timepulse
+        end.to output("\nThere was an error saving to TimePulse. Please check the information in your timepulse.yml files.\n").to_stdout
+      end
+    end
+
+    context "with server connectivity issues" do
+      let :response do
+        Typhoeus::Response.new(response_code: 0)
+      end
+
+      it "prints a notification of error" do
+        expect do
+          activity_track.send_to_timepulse
+        end.to output("\nPlease check your internet connection and that the project site is not currently offline.\nCurl Error: #{response.return_code}\n").to_stdout
+      end
+      #need test for all other response codes, i.e. unexpected response
+    end
+  end
 end
