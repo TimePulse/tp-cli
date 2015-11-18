@@ -17,7 +17,8 @@ module TpCommandLine
           activity: {
             description: description,
             project_id: config_data['project_id'],
-            source: "API"
+            source: "API",
+            time: Time.now.utc
           }
         }),
         headers: {
