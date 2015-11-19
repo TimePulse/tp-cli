@@ -3,8 +3,4 @@ require 'tp_cli'
 
 track = TpCommandLine::ActivityTrack.new(ARGV)
 
-begin
-  track.send_to_timepulse
-rescue ArgumentError
-  puts "\n Please specify action: bin/tp_cli [note] or bin/tp_cli [cwd]"
-end
+track.send_to_timepulse
