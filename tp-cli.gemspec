@@ -34,8 +34,8 @@ Gem::Specification.new do |spec|
   spec.rdoc_options	+= ["--title", "#{spec.name}-#{spec.version} Documentation"]
 
   #spec.add_dependency("", "> 0")
-  spec.add_dependency 'typhoeus'
-  spec.add_dependency 'valise'
+  spec.add_dependency 'typhoeus', '~> 0.8'
+  spec.add_dependency 'valise', '~> 1.1'
 
   #spec.post_install_message = "Thanks for installing my gem!"
 end
