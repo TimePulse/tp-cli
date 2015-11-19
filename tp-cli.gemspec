@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
 
   # Do this: y$@"
   # !!find lib bin doc spec spec_help -not -regex '.*\.sw.' -type f 2>/dev/null
-  spec.files		= %w[ .envrc.example .gitignore Gemfile Gemfile.lock LICENSE.txt README.md Rakefile bin/tp_cli lib/tp_cli.rb lib/config.rb spec/spec_helper.rb spec/tp_cli_spec.rb tp-cli.gemspec]
+  spec.files		= %w[ .envrc.example .gitignore Gemfile Gemfile.lock LICENSE.txt README.md Rakefile bin/tp-cli lib/tp_cli.rb lib/config.rb spec/spec_helper.rb spec/tp_cli_spec.rb tp-cli.gemspec]
 
   # spec.test_file        = "spec_help/gem_test_suite.rb"
   spec.licenses = ["MIT"]

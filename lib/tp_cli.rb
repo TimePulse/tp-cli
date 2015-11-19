@@ -38,7 +38,8 @@ module TpCommandLine
         directory = @config_data["directory_name"] || Dir.getwd
         "Changed working directory to #{directory}"
       else
-        raise ArgumentError
+        puts "\nPlease specify action: 'tp-cli note' or 'tp-cli cwd'"
+        exit
       end
     end
 

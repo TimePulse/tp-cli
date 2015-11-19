@@ -13,10 +13,12 @@ describe TpCommandLine::ActivityTrack do
         []
       end
 
-      it "raises ArgumentError" do
+      it "prints a message and exits" do
         expect do
-          activity_track.determine_description(args)
-        end.to raise_error(ArgumentError)
+          expect do
+            activity_track.determine_description(args)
+          end.to output("\nPlease specify action: 'tp-cli note' or 'tp-cli cwd'\n").to_stdout
+        end.to raise_error(SystemExit)
       end
     end
 
@@ -64,10 +66,12 @@ describe TpCommandLine::ActivityTrack do
         ["Bar", "Foo", "OMG", "SO", "MANY", "ARGS"]
       end
 
-      it "raises ArgumentError" do
+      it "prints a message and exits" do
         expect do
-          activity_track.determine_description(args)
-        end.to raise_error(ArgumentError)
+          expect do
+            activity_track.determine_description(args)
+          end.to output("\nPlease specify action: 'tp-cli note' or 'tp-cli cwd'\n").to_stdout
+        end.to raise_error(SystemExit)
       end
     end
   end
