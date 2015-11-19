@@ -1,0 +1,20 @@
+# Put a copy of this file (renamed "timepulse.yml") in a home or configuration
+# directory. Tp-cli checks the following directories:
+
+# ~/.timepulse
+# ~/
+# /usr/share/timepulse
+# /etc/timepulse
+
+# Your implementation of timepulse may have a different website, but it should
+# still end with "/activities.json"
+
+timepulse_url: http://[www.timepulse.io]/activities.json
+
+# Your timepulse login should be an email address
+
+login: [yourname@emailaddress.com]
+
+# You can generate a new API key on your user profile on TimePulse
+
+authorization: [insert your API key here]
