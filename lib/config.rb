@@ -5,6 +5,7 @@ module TpCommandLine
   class Config
     def file_set
       Valise::Set.define do
+        ro "."
         ro "config/"
         ro "~/.timepulse"
         ro "~/"
